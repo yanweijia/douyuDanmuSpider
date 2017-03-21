@@ -4,6 +4,7 @@
 '''
 from douyu.chat.room import ChatRoom
 from MySqlConn import Mysql
+import sys
 import time
 
 roomid = '138286'
@@ -34,6 +35,7 @@ def createTable():
     mysql.update(tableGiftMsg, int(roomid))
 
 if __name__ == '__main__':
+    roomid = sys.argv[1]
     mysql = Mysql()
     createTable()
     run()
