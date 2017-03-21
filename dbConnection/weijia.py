@@ -5,19 +5,18 @@
 from douyu.chat.room import ChatRoom
 from MySqlConn import Mysql
 import sys
-import time
+import datetime
 
 roomid = '138286'
 
 def on_chat_message(msg):
-    print '弹幕[%s]:%s' % (msg.attr('nn'), msg.attr('txt'))
+    print '[%s] 弹幕 %-30s--->   %s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg.attr('nn'), msg.attr('txt'))
     sql = 'INSERT INTO chatmsg_%s(nn,uid,ct,txt,level,time)VALUES(%s,%s,%s,%s,%s,NOW())'
-    #print sql % (int(roomid), msg.attr('nn'), msg.attr('uid'), msg.attr('ct'), msg.attr('txt'), msg.attr('level'))
     mysql.insertOne(sql, (int(roomid), msg.attr('nn'), msg.attr('uid'), msg.attr('ct'), msg.attr('txt'), msg.attr('level')))
     mysql.commit()
 
 def on_gift_message(msg):
-    print '礼物[%s]:%s' % (msg.attr('nn'),msg.attr('gfid'))
+    print '[%s] 礼物 %-30s--->   %s' % (datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), msg.attr('nn'),msg.attr('gfid'))
     sql = 'INSERT INTO giftmsg_%s(nn,uid,level,gfid,time)VALUES(%s,%s,%s,%s,NOW())'
     mysql.insertOne(sql, (int(roomid), msg.attr('nn'), msg.attr('uid'), msg.attr('level'), msg.attr('gfid')))
     mysql.commit()
